@@ -16,7 +16,6 @@
         --glass-bg: rgba(15, 23, 42, 0.85);
         --glass-border: rgba(255, 255, 255, 0.1);
         --text-color: #ffffff;
-        --accent-glow: rgba(59, 130, 246, 0.5);
     }
 
     body, html {
@@ -45,6 +44,105 @@
         50% { box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25); border-color: rgba(59, 130, 246, 0.3); }
         100% { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); border-color: rgba(255,255,255,0.1); }
     }
+
+    /* --- НОВЫЕ СТИЛИ ДЛЯ БЛОКОВ И КНОПОК --- */
+
+    /* Пульсирующая неоновая рамка для блоков */
+    @keyframes neonBorderPulse {
+        0%, 100% {
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.1), inset 0 0 5px rgba(59, 130, 246, 0.1);
+        }
+        50% {
+            border-color: rgba(59, 130, 246, 1);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+    }
+
+    /* "Дышащий" свет для стеклянных кнопок */
+    @keyframes neonButtonBreathing {
+        0%, 100% {
+            box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.1), inset -2px -2px 5px rgba(0, 0, 0, 0.3), 0 5px 10px rgba(59, 130, 246, 0.2);
+            color: #e2e8f0;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        50% {
+            box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.2), inset -2px -2px 5px rgba(0, 0, 0, 0.5), 0 5px 25px rgba(59, 130, 246, 0.6);
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+            border-color: rgba(59, 130, 246, 0.6);
+        }
+    }
+
+    /* Стилизация блоков категорий */
+    .menu-section {
+        border: 2px solid var(--primary-blue);
+        border-radius: 20px;
+        padding: 25px 20px;
+        margin-bottom: 25px;
+        position: relative;
+        background: rgba(15, 23, 42, 0.3);
+        animation: neonBorderPulse 4s infinite ease-in-out;
+    }
+
+    .section-heading {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--bg-dark);
+        padding: 0 15px;
+        font-size: 0.9rem;
+        color: #3b82f6;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    /* Стилизация новых 3D стеклянных кнопок */
+    .btn-neon-3d {
+        /* Стеклянная база */
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        
+        /* 3D эффект и тени */
+        box-shadow: 
+            inset 2px 2px 5px rgba(255, 255, 255, 0.1),
+            inset -2px -2px 5px rgba(0, 0, 0, 0.3),
+            0 5px 15px rgba(0,0,0,0.3);
+        
+        /* Анимация дыхания */
+        animation: neonButtonBreathing 5s infinite ease-in-out;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .btn-neon-3d:hover {
+        transform: translateY(-3px);
+        animation-duration: 2s; /* Ускоряем дыхание при наведении */
+    }
+
+    /* Эффект блика на стекле */
+    .btn-neon-3d::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+        transform: skewX(-25deg);
+        transition: 0.7s;
+    }
+
+    .btn-neon-3d:hover::before {
+        left: 125%;
+    }
+
 
     /* --- СТРУКТУРА ЭКРАНОВ --- */
     .screen {
@@ -97,15 +195,6 @@
         display: block;
     }
 
-    h2 {
-        font-size: 1.1rem;
-        font-weight: 300;
-        margin: 10px 0 30px 0;
-        color: #94a3b8;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-
     /* Поля ввода */
     input[type="password"] {
         width: 100%;
@@ -128,7 +217,7 @@
         box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
     }
 
-    /* --- КНОПКИ --- */
+    /* --- КНОПКИ (Базовые стили) --- */
     .btn {
         display: flex;
         justify-content: center;
@@ -146,11 +235,12 @@
         text-decoration: none;
         transition: all 0.3s ease;
         border: none;
+        color: white;
     }
-
+    
+    /* Старая кнопка primary (оставлена для входа) */
     .btn-primary {
         background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        color: white;
         box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
     }
     .btn-primary:hover {
@@ -189,15 +279,6 @@
         border-color: var(--primary-blue);
         color: white;
         background: rgba(59, 130, 246, 0.1);
-    }
-
-    .btn-ai {
-        background: linear-gradient(135deg, #059669 0%, #047857 100%);
-        color: white;
-    }
-    .btn-ai:hover {
-        transform: translateY(-2px);
-        filter: brightness(1.1);
     }
 
     .error-msg {
@@ -311,22 +392,36 @@
     </div>
 
     <div id="menu-screen" class="screen hidden">
-        <div class="glass-card fade-in">
+        <div class="glass-card fade-in" style="max-width: 500px;">
             <h1 id="menuTitle">МАТЕРИАЛЫ</h1>
-            <span id="menuSubtitle" class="subtitle-blue">ВЫБЕРИТЕ ФОРМАТ</span>
+            <span id="menuSubtitle" class="subtitle-blue" style="margin-bottom: 50px;">ВЫБЕРИТЕ ФОРМАТ</span>
             
             <div style="margin-top: 30px;">
-                <button id="btnPresentation" class="btn btn-primary" onclick="openPdfViewer()">
-                    СМОТРЕТЬ ПРЕЗЕНТАЦИЮ
-                </button>
                 
-                <a id="btnAi" href="https://notebooklm.google.com/notebook/8c87d4fd-dea3-46de-b6d8-5cda56e6a4aa" 
-                   target="_blank" 
-                   class="btn btn-ai">
-                   ОБУЧЕНИЕ ПРИ ПОМОЩИ ИИ
-                </a>
+                <div class="menu-section">
+                    <div class="section-heading" id="headingPres">СМОТРЕТЬ ПРЕЗЕНТАЦИЮ</div>
+                    <button id="btnPresentation" class="btn btn-neon-3d" onclick="openPdfViewer()">
+                        СМОТРЕТЬ ПРЕЗЕНТАЦИЮ
+                    </button>
+                </div>
 
-                <button id="changeLangBtn" class="btn btn-outline" onclick="returnToLang()">
+                <div class="menu-section" style="animation-delay: 0.5s; margin-top: 40px;">
+                    <div class="section-heading" id="headingAI">ОБУЧЕНИЕ ПРИ ПОМОЩИ ИИ</div>
+                    
+                    <a id="btnAiLink" href="https://notebooklm.google.com/notebook/8c87d4fd-dea3-46de-b6d8-5cda56e6a4aa" 
+                       target="_blank" 
+                       class="btn btn-neon-3d">
+                       ОБУЧЕНИЕ ПРИ ПОМОЩИ ИИ
+                    </a>
+
+                    <a id="btnAiVideo" href="" 
+                       target="_blank" 
+                       class="btn btn-neon-3d" style="margin-top: 15px; font-size: 1rem;">
+                       КАК ПОЛЬЗОВАТЬСЯ ОБУЧЕНИЕМ ИИ
+                    </a>
+                </div>
+
+                <button id="changeLangBtn" class="btn btn-outline" style="margin-top: 30px;" onclick="returnToLang()">
                     СМЕНИТЬ ЯЗЫК
                 </button>
             </div>
@@ -340,8 +435,8 @@
     <div id="pdf-screen" class="screen hidden">
         <div class="pdf-container-wrapper fade-in">
             <div class="pdf-header">
-                <span class="pdf-title">Электробезопасность</span>
-                <button class="close-btn" onclick="closePdfViewer()">Закрыть</button>
+                <span class="pdf-title" id="pdfTitle">Электробезопасность</span>
+                <button class="close-btn" id="btnClosePdf" onclick="closePdfViewer()">Закрыть</button>
             </div>
             
             <div class="iframe-holder">
@@ -358,27 +453,42 @@
     const CONFIG = {
         password: "ELsafetyALL2077",
         linkRu: "https://drive.google.com/file/d/1FAYUCg3iV8hld4mobKcb1bGJt5mKCqQs/preview",
-        linkKz: "https://drive.google.com/file/d/1jjnedTAtONIpW9l5VPndgr87g_SCkfuM/preview"
+        linkKz: "https://drive.google.com/file/d/1jjnedTAtONIpW9l5VPndgr87g_SCkfuM/preview",
+        // Ссылка на видео инструкцию
+        videoLink: "https://drive.google.com/file/d/1IkE_xSs4HJyKseR1KXnuUzM9_G_EDpCI/view?usp=sharing"
     };
 
-    // Элементы
+    // Элементы экранов
     const loginScreen = document.getElementById('login-screen');
     const langScreen = document.getElementById('lang-screen');
     const menuScreen = document.getElementById('menu-screen');
     const pdfScreen = document.getElementById('pdf-screen');
     
+    // Элементы управления
     const passInput = document.getElementById('passwordInput');
     const errorMsg = document.getElementById('errorMsg');
     const pdfFrame = document.getElementById('presentation-frame');
     
-    // Элементы для перевода
+    // Элементы для перевода (текстовые)
     const changeLangBtn = document.getElementById('changeLangBtn');
     const menuTitle = document.getElementById('menuTitle');
     const menuSubtitle = document.getElementById('menuSubtitle');
     const btnPresentation = document.getElementById('btnPresentation');
-    const btnAi = document.getElementById('btnAi');
+    const btnAiLink = document.getElementById('btnAiLink');
+    
+    // НОВЫЕ элементы для перевода
+    const headingPres = document.getElementById('headingPres');
+    const headingAI = document.getElementById('headingAI');
+    const btnAiVideo = document.getElementById('btnAiVideo');
+    const pdfTitle = document.getElementById('pdfTitle');
+    const btnClosePdf = document.getElementById('btnClosePdf');
+
 
     let currentPdfLink = "";
+
+    // Инициализация: установка ссылки на видео
+    btnAiVideo.href = CONFIG.videoLink;
+
 
     // 1. Вход
     function login() {
@@ -398,9 +508,17 @@
             // Перевод на Казахский
             menuTitle.innerText = "МАТЕРИАЛДАР";
             menuSubtitle.innerText = "ФОРМАТТЫ ТАҢДАҢЫЗ";
+            
+            headingPres.innerText = "ПРЕЗЕНТАЦИЯНЫ ҚАРАУ";
             btnPresentation.innerText = "ПРЕЗЕНТАЦИЯНЫ ҚАРАУ";
-            btnAi.innerText = "ЖАСАНДЫ ИНТЕЛЛЕКТПЕН ОҚУ";
+            
+            headingAI.innerText = "ЖИ-МЕН ОҚЫТУ";
+            btnAiLink.innerText = "ЖАСАНДЫ ИНТЕЛЛЕКТПЕН ОҚУ";
+            btnAiVideo.innerText = "ЖИ ОҚЫТУДЫ ҚАЛАЙ ҚОЛДАНУ КЕРЕК";
+            
             changeLangBtn.innerText = "ТІЛДІ АУЫСТЫРУ";
+            pdfTitle.innerText = "Электр қауіпсіздігі";
+            btnClosePdf.innerText = "Жабу";
             
         } else {
             currentPdfLink = CONFIG.linkRu;
@@ -408,9 +526,17 @@
             // Перевод на Русский (возврат)
             menuTitle.innerText = "МАТЕРИАЛЫ";
             menuSubtitle.innerText = "ВЫБЕРИТЕ ФОРМАТ";
+            
+            headingPres.innerText = "СМОТРЕТЬ ПРЕЗЕНТАЦИЮ";
             btnPresentation.innerText = "СМОТРЕТЬ ПРЕЗЕНТАЦИЮ";
-            btnAi.innerText = "ОБУЧЕНИЕ ПРИ ПОМОЩИ ИИ";
+
+            headingAI.innerText = "ОБУЧЕНИЕ ПРИ ПОМОЩИ ИИ";
+            btnAiLink.innerText = "ОБУЧЕНИЕ ПРИ ПОМОЩИ ИИ";
+            btnAiVideo.innerText = "КАК ПОЛЬЗОВАТЬСЯ ОБУЧЕНИЕМ ИИ";
+            
             changeLangBtn.innerText = "СМЕНИТЬ ЯЗЫК";
+            pdfTitle.innerText = "Электробезопасность";
+            btnClosePdf.innerText = "Закрыть";
         }
         
         langScreen.classList.add('hidden');
